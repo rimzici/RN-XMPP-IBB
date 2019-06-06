@@ -16,15 +16,6 @@ var base64 = require('base-64');
 global.btoa = base64.encode;
 global.atob = base64.decode;
 
-const options = {
-  title: 'Select Avatar',
-  customButtons: [{ name: 'fb', title: 'Choose Photo from Facebook' }],
-  storageOptions: {
-    skipBackup: true,
-    path: 'images',
-  },
-};
-
 class App extends Component {
 
   constructor(props) {
@@ -32,37 +23,14 @@ class App extends Component {
     this.state = {
       image: false,
     };
+
+    const { initiate } = XMPPConnection();
+    initiate();
   }
   render () {
     return (
     <View style={styles.container}>
-      <Text style={styles.welcome} onPress={async () => {
-        ImagePicker.showImagePicker(options, async (response) => {
-          console.log('Response = ', response);
-        
-          if (response.didCancel) {
-            console.log('User cancelled image picker');
-          } else if (response.error) {
-            console.log('ImagePicker Error: ', response.error);
-          } else if (response.customButton) {
-            console.log('User tapped custom button: ', response.customButton);
-          } else {
-            console.log("TEST response", response);
-            const { fileSize, data } = response;
-            const { initiate } = XMPPConnection((image) => {
-              this.setState({
-                image,
-              });
-            });
-            initiate(response);
-            
-          }
-        })
-      }}>Open</Text>
-      {this.state.image && <Image
-          style={{width: 150, height: 150}}
-          source={{uri: 'data:image/png;base64,'+this.state.image}}
-        />}
+      <Text style={styles.welcome}>Hello</Text>
     </View>
   );
     }
